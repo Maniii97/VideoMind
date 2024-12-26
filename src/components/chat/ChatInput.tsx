@@ -3,6 +3,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { colors } from '@/lib/constants/colors';
 
+import { cn } from '@/lib/utils';
+
 interface ChatInputProps {
   value: string;
   onChange: (value: string) => void;
