@@ -1,6 +1,6 @@
-const convertMarkdownToHtml = (markdown) => {
+const convertMarkdownToHtml = (markdown: string) => {
   // Replace headings (e.g., # Heading)
-  let html = markdown.replace(/^(#{1,6})\s*(.*)$/gm, (match, hashes, title) => {
+  let html = markdown.replace(/^(#{1,6})\s*(.*)$/gm, (_match, hashes, title) => {
     const level = hashes.length;
     return `<h${level}>${title.trim()}</h${level}>`;
   });
@@ -18,10 +18,13 @@ const convertMarkdownToHtml = (markdown) => {
   html = html.replace(/`([^`]+)`/g, "<code>$1</code>");
 
   // Replace code blocks (e.g., ```code```)
-  html = html.replace(/```([a-z]*)\n([\s\S]*?)```/g, (_match: any, lang: any, code: string) => {
-    const languageClass = lang ? `class="language-${lang}"` : "";
-    return `<pre><code ${languageClass}>${code.trim()}</code></pre>`;
-  });
+  html = html.replace(
+    /```([a-z]*)\n([\s\S]*?)```/g,
+    (_match: any, lang: any, code: string) => {
+      const languageClass = lang ? `class="language-${lang}"` : "";
+      return `<pre><code ${languageClass}>${code.trim()}</code></pre>`;
+    }
+  );
 
   // Replace blockquotes (e.g., > Quote)
   html = html.replace(/^>\s*(.*)$/gm, "<blockquote>$1</blockquote>");
