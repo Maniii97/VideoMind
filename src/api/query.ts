@@ -2,8 +2,10 @@
  * user asking queries will be sent to the backend and then response will be generated and rertured to the user
  */
 
+const queryUrl = import.meta.env.VITE_NGROK_QUERY_API_URL;
+
 const getAnswer = async (query: string) => {
-    const response = await fetch('http://localhost:3000/api/query', {
+    const response = await fetch(queryUrl, {
         method: 'POST',
         headers: {
         'Content-Type': 'application/json',

@@ -2,9 +2,11 @@
  * @api {post} /summary Get summary
  */
 
+const summaryUrl = import.meta.env.VITE_NGROK_SUMMARY_API_URL as string;
+
 const getSummary = async (url: string) => {
   try {
-    const response = await fetch("http://localhost:3000/api/summary", {
+    const response = await fetch(summaryUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
