@@ -8,6 +8,7 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { Logo } from "@/components/layout/Logo";
 import getSummary from "../api/summary";
 import getAnswers from "../api/query";
+import convertMarkdownToHtml from "../utils/convertmd";
 
 type Message = {
   role: "user" | "assistant";
@@ -21,16 +22,17 @@ export default function ChatPage() {
   const [input, setInput] = useState("");
   const hasFetchedSummary = useRef(false);
 
-    const fetchSummary = async () => {
-      if (videoUrl && !hasFetchedSummary.current) {
-        const summary = await getSummary(videoUrl);
-        setMessages([{ role: "assistant", content: summary }]);
-      }
-    };
+  const fetchSummary = async () => {
+    if (videoUrl && !hasFetchedSummary.current) {
+      const summary = await getSummary(videoUrl);
+      setMessages([{ role: "assistant", content: <div dangerouslySetInnerHTML={{ __html: convertMarkdownToHtml(summary) }} /> }]);
+      hasFetchedSummary.current = true;
+    }
+  };
 
-    useEffect(() => {
-      fetchSummary();
-    }, []);
+  useEffect(() => {
+    fetchSummary();
+  }, []);
 
   const handleSend = async () => {
     if (!input.trim()) return;
@@ -48,14 +50,14 @@ export default function ChatPage() {
           role: "assistant",
           content: (
             <>
-              {assistantResponse.answer}{" "}
+              <div dangerouslySetInnerHTML={{ __html: convertMarkdownToHtml(assistantResponse.answer) }} />
               <a
                 href={assistantResponse.link}
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{ color: "blue", textDecoration: "underline" }}
               >
-                {"Click here to watch"}
+                Click here to watch
               </a>
             </>
           ),
@@ -111,7 +113,11 @@ export default function ChatPage() {
                     : "bg-card text-card-foreground dark:bg-white/10"
                 }`}
               >
-                <p className="whitespace-pre-wrap">{message.content}</p>
+                {typeof message.content === "string" ? (
+                  <p className="whitespace-pre-wrap">{message.content}</p>
+                ) : (
+                  message.content
+                )}
               </div>
             </div>
           ))}
