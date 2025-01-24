@@ -25,7 +25,18 @@ export default function ChatPage() {
   const fetchSummary = async () => {
     if (videoUrl && !hasFetchedSummary.current) {
       const summary = await getSummary(videoUrl);
-      setMessages([{ role: "assistant", content: <div dangerouslySetInnerHTML={{ __html: convertMarkdownToHtml(summary) }} /> }]);
+      setMessages([
+        {
+          role: "assistant",
+          content: (
+            <div
+              dangerouslySetInnerHTML={{
+                __html: convertMarkdownToHtml(summary),
+              }}
+            />
+          ),
+        },
+      ]);
       hasFetchedSummary.current = true;
     }
   };
@@ -50,9 +61,13 @@ export default function ChatPage() {
           role: "assistant",
           content: (
             <>
-              <div dangerouslySetInnerHTML={{ __html: convertMarkdownToHtml(assistantResponse.answer) }} />
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: convertMarkdownToHtml(assistantResponse.answer),
+                }}
+              />
               <a
-                href={assistantResponse.link}
+                href={`${videoUrl}&t=${assistantResponse.link}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{ color: "blue", textDecoration: "underline" }}
