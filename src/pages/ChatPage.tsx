@@ -9,6 +9,7 @@ import { Logo } from "@/components/layout/Logo";
 import getSummary from "../api/summary";
 import getAnswers from "../api/query";
 import convertMarkdownToHtml from "../utils/convertmd";
+import Loader from "../components/loader/Loader";
 
 type Message = {
   role: "user" | "assistant";
@@ -21,23 +22,39 @@ export default function ChatPage() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const hasFetchedSummary = useRef(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const fetchSummary = async () => {
-    if (videoUrl && !hasFetchedSummary.current) {
-      const summary = await getSummary(videoUrl);
-      setMessages([
+    setIsLoading(true);
+    try {
+      if (videoUrl && !hasFetchedSummary.current) {
+        const summary = await getSummary(videoUrl);
+        setMessages([
+          {
+            role: "assistant",
+            content: (
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: convertMarkdownToHtml(summary),
+                }}
+              />
+            ),
+          },
+        ]);
+        hasFetchedSummary.current = true;
+      }
+    } catch (error) {
+      console.error("Error fetching summary:", error);
+      setMessages((prev) => [
+        ...prev,
         {
           role: "assistant",
-          content: (
-            <div
-              dangerouslySetInnerHTML={{
-                __html: convertMarkdownToHtml(summary),
-              }}
-            />
-          ),
+          content:
+            "An error occurred while fetching the summary. Please try again.",
         },
       ]);
-      hasFetchedSummary.current = true;
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -52,6 +69,7 @@ export default function ChatPage() {
     setMessages((prev) => [...prev, userMessage]);
 
     setInput("");
+    setIsLoading(true);
 
     try {
       const assistantResponse = await getAnswers(input);
@@ -88,11 +106,14 @@ export default function ChatPage() {
             "An error occurred while fetching the answer. Please try again.",
         },
       ]);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
     <div className="flex flex-col h-screen bg-background">
+      {isLoading && <Loader />} {/* Show loader when isLoading is true */}
       <header className="border-b border-border">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center space-x-4">
@@ -111,7 +132,6 @@ export default function ChatPage() {
           </div>
         </div>
       </header>
-
       <ScrollArea className="flex-1 p-4">
         <div className="container mx-auto max-w-4xl space-y-4">
           {messages.map((message, index) => (
@@ -138,7 +158,6 @@ export default function ChatPage() {
           ))}
         </div>
       </ScrollArea>
-
       <div className="border-t border-border p-4">
         <div className="container mx-auto max-w-4xl">
           <div className="flex flex-col sm:flex-row gap-2">
