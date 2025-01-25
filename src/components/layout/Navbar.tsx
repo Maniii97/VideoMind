@@ -1,6 +1,6 @@
-import { Button } from '@/components/ui/button';
-import { ThemeToggle } from '@/components/theme-toggle';
-import { Logo } from './Logo';
+import { Button } from "@/components/ui/button";
+import { ThemeToggle } from "@/components/theme-toggle";
+import { Logo } from "./Logo";
 
 export function Navbar() {
   return (

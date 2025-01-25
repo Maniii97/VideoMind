@@ -1,8 +1,8 @@
-import { Routes, Route } from 'react-router-dom';
-import LandingPage from './pages/LandingPage';
-import ChatPage from './pages/ChatPage';
-import { ThemeProvider } from './components/theme-provider';
-import { Toaster } from '@/components/ui/sonner';
+import { Routes, Route } from "react-router-dom";
+import LandingPage from "./pages/LandingPage";
+import ChatPage from "./pages/ChatPage";
+import { ThemeProvider } from "./components/theme-provider";
+import { Toaster } from "@/components/ui/sonner";
 
 function App() {
   return (

@@ -6,9 +6,9 @@ interface Stat {
 export function StatsSection() {
   // change this before production
   const stats: Stat[] = [
-    { value: '10K+', label: 'Videos Analyzed' },
-    { value: '50K+', label: 'Questions Answered' },
-    { value: '99%', label: 'Accuracy Rate' },
+    { value: '500+', label: 'Videos Analyzed' },
+    { value: '1K+', label: 'Questions Answered' },
+    { value: '90%', label: 'Accuracy Rate' },
   ];
 
   return (

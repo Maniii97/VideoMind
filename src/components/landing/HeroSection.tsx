@@ -1,6 +1,6 @@
-import { Youtube } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { Youtube } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 interface HeroSectionProps {
   youtubeUrl: string;
@@ -8,7 +8,11 @@ interface HeroSectionProps {
   onSubmit: (e: React.FormEvent) => void;
 }
 
-export function HeroSection({ youtubeUrl, onUrlChange, onSubmit }: HeroSectionProps) {
+export function HeroSection({
+  youtubeUrl,
+  onUrlChange,
+  onSubmit,
+}: HeroSectionProps) {
   return (
     <div className="relative overflow-hidden py-20 sm:py-32 lg:pb-32 xl:pb-36">
       <div className="relative">
@@ -17,7 +21,8 @@ export function HeroSection({ youtubeUrl, onUrlChange, onSubmit }: HeroSectionPr
             Understand YouTube Videos Better
           </h1>
           <p className="text-xl text-foreground max-w-2xl mx-auto font-medium">
-            Transform any YouTube video into an interactive learning experience. Get summaries and ask questions about the content.
+            Transform any YouTube video into an interactive learning experience.
+            Get summaries and ask questions about the content.
           </p>
         </div>
 
