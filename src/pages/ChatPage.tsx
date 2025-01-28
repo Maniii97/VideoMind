@@ -23,6 +23,11 @@ export default function ChatPage() {
   const [input, setInput] = useState("");
   const hasFetchedSummary = useRef(false);
   const [isLoading, setIsLoading] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
 
   const fetchSummary = async () => {
     setIsLoading(true);
@@ -61,6 +66,10 @@ export default function ChatPage() {
   useEffect(() => {
     fetchSummary();
   }, []);
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
   const handleSend = async () => {
     if (!input.trim()) return;
@@ -113,7 +122,7 @@ export default function ChatPage() {
 
   return (
     <div className="flex flex-col h-screen bg-background">
-      {isLoading && <Loader />} {/* Show loader when isLoading is true */}
+      {isLoading && <Loader />}
       <header className="border-b border-border">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center space-x-4">
@@ -156,6 +165,7 @@ export default function ChatPage() {
               </div>
             </div>
           ))}
+          <div ref={messagesEndRef} />
         </div>
       </ScrollArea>
       <div className="border-t border-border p-4">
