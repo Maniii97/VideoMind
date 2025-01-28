@@ -1,9 +1,12 @@
 const convertMarkdownToHtml = (markdown: string) => {
   // Replace headings (e.g., # Heading)
-  let html = markdown.replace(/^(#{1,6})\s*(.*)$/gm, (_match, hashes, title) => {
-    const level = hashes.length;
-    return `<h${level}>${title.trim()}</h${level}>`;
-  });
+  let html = markdown.replace(
+    /^(#{1,6})\s*(.*)$/gm,
+    (_match, hashes, title) => {
+      const level = hashes.length;
+      return `<h${level}>${title.trim()}</h${level}>`;
+    }
+  );
 
   // Replace bold text (e.g., **bold**)
   html = html.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");

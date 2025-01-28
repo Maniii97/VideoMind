@@ -6,12 +6,14 @@ interface HeroSectionProps {
   youtubeUrl: string;
   onUrlChange: (url: string) => void;
   onSubmit: (e: React.FormEvent) => void;
+  showAlert: boolean;
 }
 
 export function HeroSection({
   youtubeUrl,
   onUrlChange,
   onSubmit,
+  showAlert,
 }: HeroSectionProps) {
   return (
     <div className="relative overflow-hidden py-20 sm:py-32 lg:pb-32 xl:pb-36">
@@ -42,6 +44,11 @@ export function HeroSection({
               Analyze Video
             </Button>
           </div>
+          {showAlert && (
+            <div className="mt-2 text-red-600 text-sm">
+              Please add a valid YouTube link.
+            </div>
+          )}
         </form>
 
         <div className="absolute inset-x-0 -top-16 -z-10 flex transform-gpu justify-center overflow-hidden blur-3xl">

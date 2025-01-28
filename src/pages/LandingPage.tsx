@@ -8,10 +8,16 @@ import { FeaturesSection } from "@/components/landing/FeaturesSection";
 
 export default function LandingPage() {
   const [youtubeUrl, setYoutubeUrl] = useState("");
+  const [showAlert, setShowAlert] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!youtubeUrl) {
+      setShowAlert(true);
+      return;
+    }
+    setShowAlert(false);
     navigate("/chat", { state: { url: youtubeUrl } });
   };
 
@@ -24,6 +30,7 @@ export default function LandingPage() {
           youtubeUrl={youtubeUrl}
           onUrlChange={setYoutubeUrl}
           onSubmit={handleSubmit}
+          showAlert={showAlert}
         />
         <StatsSection />
         <FeaturesSection />
