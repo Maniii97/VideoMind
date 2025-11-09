@@ -2,7 +2,7 @@
  * @api {post} /summary Get summary
  */
 
-const summaryUrl = import.meta.env.VITE_NGROK_SUMMARY_API_URL as string;
+const summaryUrl = import.meta.env.VITE_PRODUCTION_SUMMARY_API_URL as string;
 
 const getSummary = async (url: string) => {
   try {
